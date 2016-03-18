@@ -1,60 +1,78 @@
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
 class Tablica
 {
 public:
-  int* tab;
-  int il_el=0;
+  int rozmiar, licznik;
+  int *tab;
+  
 
-  int ile()
+  Tablica()
   {
-    return sizeof(tab)/sizeof(tab[0]);
+    rozmiar=2;
+    licznik=0;
+    tab = new int[rozmiar];
   }
 
-  Tablica();
-  ~Tablica();
-
-};
-
-
-Tablica::Tablica()
-{
-  Tablica=new int[5];
-}
- 
-Tablica::~Tablica()
-{
-  delete [] Tablica;
-}
-
-ostream & operator << (ostream& out, Tablica const& tab)
-{
-    for(int i=0; i<tab.il_el; i++)
-      out<<tab[i];
-    return out;
-}
-
-  istream & operator >> (istream& in, Tablica& tab)
+  ~Tablica()
   {
-    if(tab.ile()<tab.il_el)
-      {
-    tab.il_el++;
-    in>>tab[tab.ile];
+    delete[] tab;
+    tab = NULL;
+  }
+
+  void dodajElem(int liczba, int tryb)
+  {
+    if(licznik>=rozmiar)
+      { 
+	rozmiar=rozmiar+tryb;
+	int *temp_tablica = new int[rozmiar];
+	for(int i=0;i<licznik;i++)
+	  temp_tablica[i]=tab[i];
+	delete[] tab;
+	tab = temp_tablica;
+	//delete[] temp_tablica;
+	temp_tablica=NULL;
       }
-      else
-    {
-      Tablica=new int[tab.il_el+1];
-      tab.il_el++;
-      in>>tab[tab.il_el];
-    }
-    return in;
-}
+    tab[licznik]=liczba;
+    licznik++;    
+  }
+
+  void wypisz()
+  {
+    for(int j=0; j<rozmiar; j++) cout<<tab[j]<<", ";
+  }
+
+  void reset()
+  {
+    delete[] tab;
+    rozmiar=2;
+    licznik=0;
+    tab = new int[rozmiar];
+  }
+};
 
 
 int main()
 {
-  Tablica tab;
-  cout<<tab;
+  time_t start, stop;
+  //srand(time(NULL));
+  //int liczba;
+  Tablica dyn;
+  int zakresy[]={10,100,1000,1000000,1000000000};
+  for(int j=0;j<(int)(sizeof(zakresy)/sizeof(zakresy[0]));j++)
+    {
+      cout<<"Wpisywanie "<<zakresy[j]<<" liczb, krok: 1 "<<endl;
+      start=clock();    
+      for(int i=0; i<zakresy[j]; i++)
+	{
+	  //liczba=rand();
+	  dyn.dodajElem(1, 1);
+	}
+      stop=clock();
+      cout<<"Wpisanie zajęło: "<<(stop-start)/(double)CLOCKS_PER_SEC<<" sek"<<endl<<endl;
+      dyn.reset();
+    }
 }
