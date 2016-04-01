@@ -9,7 +9,6 @@ public:
   int rozmiar, licznik;
   int *tab;
   
-
   Tablica()
   {
     rozmiar=2;
