@@ -9,7 +9,7 @@ public:
     virtual int size() = 0;
 };
 
-class IStack: public IList
+class IStack
 {
 public:
     virtual int push(Element elem) = 0;
