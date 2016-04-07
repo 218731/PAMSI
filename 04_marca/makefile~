@@ -1,0 +1,12 @@
+FLAGS = -pedantic -Wall -std=c++11
+
+tab_dyn: ./o/tablica.o ./o/main.o
+	g++ $(FLAGS) ./o/tablica.o ./o/main.o
+
+o/main.o: ./src/tablica.cpp ./inc/tablica.h
+	g++ -c $(FLAGS) ./src/main.cpp
+
+o/tablica.o: ./inc/tablica.h ./src/tablica.cpp
+	g++ -c $(FLAGS) ./src/tablica.cpp
+
+clean: rm -r ./o
