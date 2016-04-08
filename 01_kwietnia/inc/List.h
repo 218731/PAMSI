@@ -4,8 +4,7 @@ class List : public IList
 	{
 	private:
 		int rozmiar;
-		Node *poczatek, *koniec;
-		friend class Stack;
+		Node *poczatek, *koniec;				//wskazniki na poczatkowy i ostatni element listy
 	public:
 	
 	List();
