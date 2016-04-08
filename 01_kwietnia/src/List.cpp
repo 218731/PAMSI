@@ -116,11 +116,15 @@ W przeciwnym wypadku wyswietlany jest komunikat o bledzie i zwracana jest wartos
 */
 	int List::wyszukaj(int szukana)
 	{
-		for (int i=1; i<=rozmiar; i++)
-			if(lista.get(i) == szukana) return lista.get(i);
-		cout<<"Nie znaleziono zadanej liczby!"<<endl;
-		return -1;
-	}
+ 		Node *temp = poczatek;
+ 		for (int i=1; i<=rozmiar; i++)
+ 		{
+ 			if(temp->element == szukana) return temp->element;
+ 			temp = temp->nastepny;
+ 		}
+ 		cout<<"Nie znaleziono zadanej liczby!"<<endl;
+ 		return -1;
+ 	}
 		
 
 
