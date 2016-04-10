@@ -1,3 +1,5 @@
+#ifndef LIST_H
+#define LIST_H
 #include "IList.h"
 
 class List : public IList
@@ -20,4 +22,8 @@ class List : public IList
 	int size();
 	
 	int wyszukaj(int szukana);
+	
+	void wyczysc();
 };
+
+#endif

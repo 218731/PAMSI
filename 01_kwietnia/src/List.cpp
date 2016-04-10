@@ -17,14 +17,15 @@ using namespace std;
  */
 	int List::add(int elem, int position)
 	{
-		Node *temp = new Node();						//inicjacja elementu do dodania
+		Node *temp = new Node;						//inicjacja elementu do dodania
 		temp->element = elem;
 		
 		if(position == 1)										//dodanie na poczatku listy
 		{
 			temp->nastepny = poczatek;
 			poczatek = temp;
-			if(rozmiar == 0) { rozmiar++; koniec = temp; }
+			if(rozmiar == 0) { koniec = temp; }
+			rozmiar++;
 			return 0;
 		}
 		else
@@ -40,9 +41,9 @@ using namespace std;
 			{
 				if(position<=rozmiar)						//dodanie w srodku listy
 				{
-					temp = poczatek;
-					Node *index = new Node();
-					for(int i=0; i<position; i++)
+					Node *index = new Node;
+					index = poczatek;
+					for(int i=1; i<position-1; i++)
 						index = index->nastepny;
 					temp->nastepny = index->nastepny;
 					index->nastepny = temp;
@@ -60,22 +61,31 @@ using namespace std;
 	 */
 	Node List::remove(int position)
 	{
-		Node *zwrot = new Node ();
+		Node *zwrot = new Node;
 		zwrot->nastepny = nullptr;
-		if(position<=rozmiar+1)
+		if(position <= 0)
+			throw "Nope\n";
+		else if(position == 1)
 		{
-			Node *temp = poczatek;
-			for (int i=1; i<position-1; i++)
+			zwrot = poczatek;
+			poczatek = poczatek -> nastepny;
+			rozmiar--;
+		}
+		else if(position<=rozmiar)
+		{
+			Node * temp = poczatek;
+			for(int i=1; i<position-1;++i)
 				temp = temp->nastepny;
-			zwrot = temp;
-			temp->nastepny = (temp->nastepny)->nastepny;
+			zwrot = temp->nastepny;
+			temp->nastepny = temp->nastepny->nastepny;
 			rozmiar--;
 		}
 		else 
 		{
 			cout<<"Nie ma takiego elementu! Pozycja > rozmiru listy."<<endl;
-			return *zwrot;
+			throw "Nope\n";
 		}
+		return *zwrot;
 	}
 	/*Funkcja zwracajaca element listy na danej pozycji listy.
 		W razie niepowodzenia wyswietli sie komunikat o bledzie i zwrocony zostanie
@@ -89,11 +99,12 @@ using namespace std;
 			temp = poczatek;
 			for (int i=1; i<position; i++)
 				temp = temp->nastepny;
+			return *temp;
 		}
 		else 
 		{
 			cout<<"Nie ma takiego elementu! Pozycja > rozmiru listy."<<endl;
-			return *temp;
+			throw "Nope1\n";
 		}
 	}
 	/* Funkcja wypisujaca wszystkie elementy listy */
@@ -126,9 +137,9 @@ W przeciwnym wypadku wyswietlany jest komunikat o bledzie i zwracana jest wartos
  		return -1;
  	}
 		
-
-
-
-
-
+	void List::wyczysc()
+	{
+		for(int i=rozmiar; i>0; i--)
+			remove(i);
+	}
 
