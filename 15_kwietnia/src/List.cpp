@@ -15,10 +15,11 @@ using namespace std;
  * Jezeli funkcji nie uda sie dodac elementu zwroci ona wartosc -1. W przeciwnym razie
  * zakonczy sie zwroceniem wartosci 0.
  */
-	int List::add(int elem, int position)
+	int List::add(int numer, string nazwisko, int position)
 	{
 		Node *temp = new Node;						//inicjacja elementu do dodania
-		temp->element = elem;
+		temp->numer = numer;
+		temp->nazwisko = nazwisko;
 		
 		if(position == 1)										//dodanie na poczatku listy
 		{
@@ -113,7 +114,7 @@ using namespace std;
 		Node *temp = poczatek;
 		for (int i=1; i<=rozmiar; i++)
 		{
-			cout<<i<<": "<<temp->element<<endl;
+			cout<<i<<". Nazwisko: "<<temp->nazwisko<<", numer: "<<temp->numer<<endl;
 			temp = temp->nastepny;
 		}
 	}
@@ -124,7 +125,7 @@ using namespace std;
 
 /*Funkcja wyszukujaca liczbe 'szukana' na liscie. W przypadku powodzenia liczba ta jest zwracana.
 W przeciwnym wypadku wyswietlany jest komunikat o bledzie i zwracana jest wartosc -1.
-*/
+
 	int List::wyszukaj(int szukana)
 	{
  		Node *temp = poczatek;
@@ -136,7 +137,7 @@ W przeciwnym wypadku wyswietlany jest komunikat o bledzie i zwracana jest wartos
  		cout<<"Nie znaleziono zadanej liczby!"<<endl;
  		return -1;
  	}
-		
+*/		
 	void List::wyczysc()
 	{
 		for(int i=rozmiar; i>0; i--)
