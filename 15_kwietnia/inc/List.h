@@ -15,7 +15,6 @@ public:
 	Node get(int position);
 	void wypisz();
 	int size();
-	int wyszukaj(int szukana);
 	void wyczysc();
 };
 

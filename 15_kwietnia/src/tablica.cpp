@@ -15,7 +15,7 @@ Tablica::~Tablica()
 		tab = NULL;
 	}
 
-void Tablica::dodajElem(Tom liczba, int tryb)
+void Tablica::dodajElem(Tom rekord, int tryb)
 	{
 		if(licznik>=rozmiar)
 			{ 
@@ -40,7 +40,7 @@ void Tablica::reset()
 		tab = new Tom[rozmiar];
 	}
 
-int size()
+int Tablica::size()
 {
 	return rozmiar;
 }
