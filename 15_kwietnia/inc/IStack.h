@@ -1,3 +1,6 @@
+#ifndef ISTACK_HH
+#define ISTACK_HH
+
 class IStack
 {
 public:
@@ -5,3 +8,5 @@ public:
 	virtual Element pop() = 0;
 	virtual int size() = 0;
 };
+
+#endif

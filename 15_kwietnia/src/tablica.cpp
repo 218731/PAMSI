@@ -42,5 +42,5 @@ void Tablica::reset()
 
 int Tablica::size()
 {
-	return rozmiar;
+	return licznik;
 }

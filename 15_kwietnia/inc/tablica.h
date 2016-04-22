@@ -14,7 +14,10 @@ public:
 
 	~Tablica();
 
-	Tom & operator[](int index);
+	Tom & operator[](int index)
+	{
+		return tab[index];
+	}
 	
 	void dodajElem(Tom rekord, int tryb);
 
@@ -22,10 +25,5 @@ public:
 	
 	int size();
 };
-
-	Tom & Tablica::operator[](int index)
-	{
-		return tab[index];
-	}
 
 #endif

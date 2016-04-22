@@ -1,6 +1,7 @@
 #ifndef TOM_H
 #define TOM_H
 
+#include <iostream>
 #include "List.h"
 
 struct Tom
@@ -12,6 +13,11 @@ public:
 	char nazwa_tomu()
 	{
 		return litera;
+	}
+	
+	void wypisz()
+	{
+		elementy.wypisz();	
 	}
 };
 

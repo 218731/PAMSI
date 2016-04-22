@@ -1,3 +1,6 @@
+#ifndef ISTOPER_H
+#define ISTOPER_H
+
 /*klasa do obslugi funkcji pomiaru czasu wykonania operacji uzupelniania tablicy
 	start() - pobranie czasu systemowego bezposrednio przed rozpoczeciem operacji
 	stop() - pobranie czasu systemowego bezposrednio po zakonczeniu operacji
@@ -11,3 +14,5 @@ public:
 	virtual void stop() = 0;
 	virtual double getTime() = 0;
 };
+
+#endif
