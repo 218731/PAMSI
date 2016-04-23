@@ -1,18 +1,19 @@
 #ifndef NODE_HH
 #define NODE_HH
+#include <iostream>
 
-struct Node
+class Node
 {
 	Node *lewy, *prawy;
 	int wartosc;
 	
-	Node();
-};
+	Node()
+	{
+		lewy = NULL;
+		prawy = NULL;
+	}
 
-Node::Node()
-{
-	lewy = NULL;
-	prawy = NULL;
-}
+	friend class Drzewo;
+};
 
 #endif
