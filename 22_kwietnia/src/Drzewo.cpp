@@ -1,8 +1,10 @@
 #include "Drzewo.hh"
 
+using namespace std;
+
 Drzewo::Drzewo()
 {
-	wysokosc = 0;	
+	wysokosc = 0;
 }
 
 void Drzewo::dodaj(int element)
@@ -13,6 +15,7 @@ void Drzewo::dodaj(int element)
 	
 	if(wysokosc == 0)
 	{
+		nowy->ojciec = NULL;
 		korzen = nowy;
 		wysokosc++;
 	}
@@ -23,42 +26,71 @@ void Drzewo::dodaj(int element)
 		{
 			if(element > (pozycja->wartosc))
 			{
-				if(pozycja->lewy != NULL) pozycja = pozycja->lewy;
+				if(pozycja->prawy != NULL) pozycja = pozycja->prawy;
 				else
 				{
-					pozycja->lewy = nowy;
+					pozycja->prawy = nowy;
 					if(i>=wysokosc) wysokosc++;
+					nowy->ojciec = pozycja;
 				}
 			}
 			else
 			{
 				if(element < (pozycja->wartosc))
 				{
-					if(pozycja->prawy != NULL) pozycja = pozycja->prawy;
+					if(pozycja->lewy != NULL) pozycja = pozycja->lewy;
 					else
 					{
-						pozycja->prawy = nowy;
+						pozycja->lewy = nowy;
 						if(i>=wysokosc) wysokosc++;
+						nowy->ojciec = pozycja;
 					}
 				}
 			}
 		}
-	}
+	}	
 }
+
 
 void Drzewo::wypisz(Node *wezel)
 {
 	if(wezel != NULL)
 	{
-		wypisz(wezel->lewy);
-		std::cout<<wezel->wartosc<<", ";
-		wypisz(wezel->prawy);
+		if(wezel->lewy != NULL) wypisz(wezel->lewy);
+		std::cout<<wezel->wartosc<<endl;
+		if(wezel->prawy != NULL) wypisz(wezel->prawy);
 	}
-	else
-		std::cout<<wezel->wartosc<<", ";
 }
 
 void Drzewo::wypisz()
 {
 	wypisz(korzen);
+}
+
+int Drzewo::znajdz(int szukana)
+{
+	Node *wezel = korzen;
+	do
+	{
+		if(szukana > wezel->wartosc) wezel = wezel->prawy;
+		if(szukana < wezel->wartosc) wezel = wezel->lewy;
+	}while(wezel->wartosc != szukana);
+	return wezel->wartosc;
+}
+
+void Drzewo::reset()
+{
+	reset(korzen);
+}
+
+void Drzewo::reset(Node *wezel)
+{
+	if(wezel != NULL)
+	{
+		if(wezel->lewy != NULL) reset(wezel->lewy);
+		if(wezel->prawy != NULL) reset(wezel->prawy);
+		delete wezel;
+	}
+	korzen = NULL;
+	wysokosc = 0;
 }

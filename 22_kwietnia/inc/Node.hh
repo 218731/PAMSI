@@ -4,11 +4,12 @@
 
 class Node
 {
-	Node *lewy, *prawy;
+	Node *lewy, *prawy, *ojciec;
 	int wartosc;
 	
 	Node()
 	{
+		ojciec = NULL;
 		lewy = NULL;
 		prawy = NULL;
 	}
