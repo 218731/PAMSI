@@ -1,43 +1,26 @@
 #ifndef GRAF_HH
 #define GRAF_HH
+#include <fstream>
 #include "IGraf.hh"
 
 class Graf : public IGraf
 {
+private:
 	int liczba_wierzcholkow;
-	int *sasiedzi;
+	int **sasiedzi;
 	int rozmiar;
 	
 public:
 	Graf();
+	int dodaj_wierzcholek();
+	void dodaj_krawedz(int v1, int v2);
+	Queue zwroc_sasiadow_BFS(int v);
+	Stack zwroc_sasiadow_DFS(int v);
+	bool jest_polaczony(int v1, int v2);
+	void przeszukaj_wszerz(int v);
+	void przeszukaj_wglab(int v);
+	void wypisz();
+	void wczytaj_macierz();
 };
-
-Graf::Graf()
-{
-	liczba_wierzcholkow = 0;
-	rozmiar = 10;
-	sasiedzi = new int [rozmiar][rozmiar];
-}
-
-void Graf::dodaj_wierzcholek()
-{
-	int wierzcholki, krawedzie;
-	cout<<"Podaj liczbe wierzcholkow do dodania: ";
-	cin>>wierzcholki;
-	do
-	{
-		cout<<"Podaj liczbe krawedzi: ";
-		cin>>krawedzie;
-	}while(krawedzie >= wierzcholki-1);
-	
-	if(liczba_wierzcholkow + wierzcholki) > rozmiar)
-		//powieksz macierz sasiedztwa
-		
-	for(int i=0; i<krawedzie; i++)
-	{
-		//wczytanie krawedzi
-		//dodanie rekordu do macierzy
-	}
-}
 
 #endif
