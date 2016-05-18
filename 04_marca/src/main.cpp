@@ -18,10 +18,10 @@ int main()
 			cout<<"Wpisywanie "<<zakresy[j]<<" liczb, krok: 1 "<<endl;
 			start=clock();		
 			for(int i=0; i<zakresy[j]; i++)
-	{
-		//liczba=rand();
-		dyn.dodajElem(1, 1);
-	}
+			{
+				//liczba=rand();
+				dyn.dodajElem(1, 1);
+			}
 			stop=clock();
 			cout<<"Wpisanie zajęło: "<<(stop-start)/(double)CLOCKS_PER_SEC<<" sek"<<endl<<endl;
 			dyn.reset();
