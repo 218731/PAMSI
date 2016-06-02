@@ -15,9 +15,9 @@ plik lab2.cpp zawiera klasy Runnable, List, Stoper i program główny.
 ## Lab4 - ADT, lista / kolejka / stos
 
 Brak sprawozdania.
+Sprawozdanie uzupelnione, kod nie zawiera osobnego interfejsu IRunnable. Implementacje Ok.
 
-
-**Ocena: 2,0**
+**Ocena: 4,0**
 
 ## Lab5 - sortowanie
 
@@ -25,4 +25,23 @@ Brak sprawozdania.
 
 Brak sprawozdania
 
-**Ocena: 2,0**
+Sprawozdanie uzupełnione. Złożoność daleka od idealnej.
+Brak implementacji dynamicznego zwiekszania liczby bucketow i rehashowania.
+
+
+**Ocena: 4,0**
+
+## Lab7 - drzewa
+
+Sprawozdanie pokazuje czas zapisu do drzewa, ale nie jest to drzewo r-b.
+W dodatku brak analizy najciekawszego parametru - czasu odczytu.
+
+**Ocena: 3**
+
+## Lab8 - grafy (dfs,bfs)
+brak sprawozdania
+**Ocena: 2**
+
+## Lab9 - grafy (b&b)
+brak zadania
+**Ocena: 2**
