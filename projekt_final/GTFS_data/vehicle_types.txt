@@ -1,0 +1,13 @@
+vehicle_type_id,vehicle_type_name,vehicle_type_description,vehicle_type_symbol
+1,"Solo","",""
+2,"Przegubowy","",""
+3,"Solo_N_(!)","N - Kurs obsługiwany przez autobus NISKOPODŁOGOWY.","N"
+5,"D - 2x105N","",""
+8,"Midi","",""
+9,"Przegubowy_N_(!)","N - Kurs obsługiwany przez autobus NISKOPODŁOGOWY.","N"
+10,"Midi_N_(!)","N - Kurs obsługiwany przez autobus NISKOPODŁOGOWY.","N"
+12,"205WrAs","N - Kurs obsługiwany przez tramwaj NISKOPODŁOGOWY.","N"
+14,"Mini_N_(!)","N - Kurs obsługiwany przez autobus NISKOPODŁOGOWY.","N"
+28,"Skoda 16T i 19T","N - Kurs obsługiwany przez tramwaj NISKOPODŁOGOWY.","N"
+34,"Pesa Twist 2010","N - Kurs obsługiwany przez tramwaj NISKOPODŁOGOWY.","N"
+36,"M - Moderus MF 19 AC(!)","N - Kurs obsługiwany przez tramwaj NISKOPODŁOGOWY.","N"
