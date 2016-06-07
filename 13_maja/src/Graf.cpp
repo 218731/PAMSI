@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Graf.hh"
+#include "PQueue.h"
 
 using namespace std;
 
@@ -49,7 +50,7 @@ int Graf::dodaj_wierzcholek()
 
 void Graf::dodaj_krawedz(int v1, int v2)
 {
-	sasiedzi[v1][v2] = 1;
+	sasiedzi[v1-1][v2-1] = 1;
 }
 
 void Graf::wczytaj_macierz()
@@ -89,7 +90,7 @@ void Graf::wczytaj_macierz()
 
 void Graf::wypisz()
 {
-	cout<<"Wypisuje"<<endl;
+	cout<<"Macierz sasiedztwa:"<<endl;
 	for(int i=0; i<liczba_wierzcholkow; i++)
 	{
 		for(int j=0; j<liczba_wierzcholkow; j++)
@@ -104,138 +105,148 @@ bool Graf::jest_polaczony(int v1, int v2)
 	else return 0;
 }
 
-Queue Graf::zwroc_sasiadow_BFS(int v)
+Queue Graf::zwrocSasiadow(int v)
 {
-	Queue zwrot;
+	Queue listaSasiadow;
 	for(int i=0; i<liczba_wierzcholkow; i++)
-	{
-		if(sasiedzi[v][i] == 1) zwrot.push(i);
-	}
-	return zwrot;
+		if(sasiedzi[v][i] > 0) listaSasiadow.push(i);
+	return listaSasiadow;
 }
 
-Stack Graf::zwroc_sasiadow_DFS(int v)
+int Graf::branchAndBound(int start, int stop)
 {
-	Stack zwrot;
-	for(int i=liczba_wierzcholkow; i>0; i--)
-	{
-		if(sasiedzi[v][i] != 0) zwrot.push(i);
-	}
-	return zwrot;
-}
-
-void Graf::przeszukaj_wszerz(int v)
-{
-	Queue do_odwiedzenia, temp;
-	bool *odwiedzone = new bool[liczba_wierzcholkow];
+	start -=1; stop -= 1;		//dostosowanie wirzcholkow do indeksu w macierzy
 	
+	PQueue toCheck;		//lista do sprawdzenia
+	PQueue distances;	//dystans od startu do obecnego
+	int actualCost, lowestCost = 0;
+	int actualVert;
+	int numberOfExtentions = 0;
 	
-	for(int i=0; i<liczba_wierzcholkow; i++)		//zerowanie tablicy odwiedzonych
-	{
-		odwiedzone[i] = 0;
-	}
+	toCheck.push(start, 0);		//dodanie startowego wierzcholka do odwiedzenia
+	distances.push(0, 0);
 	
-	for(int i=0; i<liczba_wierzcholkow; i++)		//dodanie do kolejki sasiadow wierzcholka 'v'
+	while(toCheck.size() > 0)
 	{
-		if(sasiedzi[v-1][i] == 1)
+		actualVert = toCheck.pop().element;
+		actualCost = distances.pop().element;
+		if(actualVert == stop)
 		{
-			do_odwiedzenia.push(i);
-			odwiedzone[i] = 1;
+			lowestCost = actualCost;
+			break;		//znaleziono trase pierwszy raz
 		}
-	}
-	
-	odwiedzone[v-1] = 1;		//odwiedzenie pierwszego wierzcholka
-	
-	int aktualny_wierzcholek, czy_odwiedzac;
-	//cout<<"LET'S BFS!"<<endl;
-	//cout<<"Startuje przeszukanie z "<<v<<endl;
-	//cout<<"odwiedzilem "<<v<<endl;
-	do
-	{
-		aktualny_wierzcholek = do_odwiedzenia.pop().element;
-		odwiedzone[aktualny_wierzcholek] = 1;
-		//cout<<"odwiedzilem "<<aktualny_wierzcholek + 1<<endl;		//testowe wypisywanie odzwiedzonych wierzcholkow
-		temp = zwroc_sasiadow_BFS(aktualny_wierzcholek);
 		
-		int temp_rozmiar = temp.size();
-		for(int i=0; i<temp_rozmiar; i++)
+		Queue listaSasiadow = zwrocSasiadow(actualVert);		//sasiedzi aktualnego wierzcholka
+		while(listaSasiadow.size() > 0)
 		{
-			czy_odwiedzac = temp.pop().element;
-			if(odwiedzone[czy_odwiedzac] == 0)
-			{
-				odwiedzone[czy_odwiedzac] = 1;
-				do_odwiedzenia.push(czy_odwiedzac);
-			}
-		}
-	}while(do_odwiedzenia.size() != 0);
-	
-	//cout<<"END OF BFS! :D"<<endl;
-}
-
-int Graf::przeszukaj_wglab(int v_start, int v_stop)
-{
-	Stack do_odwiedzenia, temp;
-	int aktualny_wierzcholek, poprzedni_wierzcholek, czy_odwiedzac, koszt=0, najlepszy_koszt;
-	bool *odwiedzone = new bool[liczba_wierzcholkow], znalazlem = 0;
-	
-	for(int i=0; i<liczba_wierzcholkow; i++)		//zerowanie tablicy odwiedzonych
-	{
-		odwiedzone[i] = 0;
-	}
-	
-	for(int i=0; i<liczba_wierzcholkow; i++)		//dodanie do stosu sasiadow wierzcholka 'v'
-	{
-		if(sasiedzi[v_start-1][i] == 1)
-		{
-			do_odwiedzenia.push(i);
-			odwiedzone[i] = 1;
+			int sasiad = listaSasiadow.pop().element;
+			toCheck.push(sasiad, actualCost + sasiedzi[actualVert][sasiad]);
+			numberOfExtentions++;
+			distances.push(actualCost + sasiedzi[actualVert][sasiad], actualCost + sasiedzi[actualVert][sasiad]);
 		}
 	}
 	
-	//cout<<"LET'S DFS!"<<endl;
-	//cout<<"Startuje przeszukanie z "<<v<<endl;
-	odwiedzone[v_start-1] = 1;		//odwiedzenie wierzcholka startowego
-	poprzedni_wierzcholek = v_start-1;
-	
-	do
+	while(toCheck.size() > 0)
 	{
-		aktualny_wierzcholek = do_odwiedzenia.pop();
-		koszt = koszt + sasiedzi[poprzedni_wierzcholek, aktualny_wierzcholek]; 
-		poprzedni_wierzcholek = aktualny_wierzcholek;
-		if(aktualny_wierzcholek != v_stop)
+		actualVert = toCheck.pop().element;
+		actualCost = distances.pop().element;
+		
+		if(actualCost < lowestCost)
 		{
-			//cout<<"odwiedzilem "<<aktualny_wierzcholek + 1<<endl;		//testowe wypisywanie odzwiedzonych wierzcholkow
-			temp = zwroc_sasiadow_DFS(aktualny_wierzcholek);
-
-			int temp_rozmiar = temp.size();
-			for(int i=0; i<temp_rozmiar; i++)
+			if(actualVert == stop) lowestCost = actualCost;
+			else
 			{
-				czy_odwiedzac = temp.pop();
-				if(odwiedzone[czy_odwiedzac] == 0)
+				Queue listaSasiadow = zwrocSasiadow(actualVert);		//sasiedzi aktualnego wierzcholka
+				while(listaSasiadow.size() > 0)
 				{
-					odwiedzone[czy_odwiedzac] = 1;
-					do_odwiedzenia.push(czy_odwiedzac);
+					int sasiad = listaSasiadow.pop().element;
+					toCheck.push(sasiad, actualCost + sasiedzi[actualVert][sasiad]);
+					numberOfExtentions++;
+					distances.push(actualCost + sasiedzi[actualVert][sasiad], actualCost + sasiedzi[actualVert][sasiad]);
 				}
 			}
 		}
-		else
+		else break;		//bo jezeli kolejka jest priorytetowa, a ten warunek nie jest spelniony
+	}								//to juz nigdy nie bedzie
+	cout<<"Extentions: "<<numberOfExtentions<<"		";
+	return lowestCost;
+}
+
+int Graf::branchAndBoundExtendedList(int start, int stop)
+{
+	start -=1; stop -= 1;		//dostosowanie wirzcholkow do indeksu w macierzy
+	
+	PQueue toCheck;		//lista do sprawdzenia
+	PQueue distances;	//dystans od startu do obecnego
+	List extendedList;
+	int actualCost, lowestCost = 0;
+	int actualVert;
+	int numberOfExtentions = 0;
+	bool Checked;
+	
+	toCheck.push(start, 0);		//dodanie startowego wierzcholka do odwiedzenia
+	distances.push(0, 0);
+	
+	while(toCheck.size() > 0)
+	{
+		actualVert = toCheck.pop().element;
+		actualCost = distances.pop().element;
+		if(actualVert == stop)
 		{
-			if(znalazlem == 0)		//znalezienie drogi po raz pierwszy
+			lowestCost = actualCost;
+			break;		//znaleziono trase pierwszy raz
+		}
+		
+		Checked = 0;
+		for(int i=1; i<extendedList.size()+1; i++)
+		{
+			if(extendedList.get(i).element == actualVert) Checked = 1;
+		}
+		if(Checked == 0)
+		{
+			extendedList.add(actualVert, extendedList.size()+1);
+			Queue listaSasiadow = zwrocSasiadow(actualVert);		//sasiedzi aktualnego wierzcholka
+			while(listaSasiadow.size() > 0)
 			{
-				znalazlem = 1;
-				najlepszy_koszt = koszt;
+				int sasiad = listaSasiadow.pop().element;
+				toCheck.push(sasiad, actualCost + sasiedzi[actualVert][sasiad]);
+				numberOfExtentions++;
+				distances.push(actualCost + sasiedzi[actualVert][sasiad], actualCost + sasiedzi[actualVert][sasiad]);
 			}
-			else		//znalezienie drogi kolejny raz
+		}
+	}
+	
+	while(toCheck.size() > 0)
+	{
+		actualVert = toCheck.pop().element;
+		actualCost = distances.pop().element;
+		
+		if(actualCost < lowestCost)
+		{
+			if(actualVert == stop) lowestCost = actualCost;
+			else
 			{
-				if(koszt < najlepszy_koszt)		//sprawdzenie, czy znaleziona droga jest lepsza
+				Checked = 0;
+				for(int i=1; i<extendedList.size()+1; i++)
 				{
-					najlepszy_koszt = koszt;
+					if(extendedList.get(i).element == actualVert) Checked = 1;
+				}
+				if(Checked == 0)
+				{
+					Queue listaSasiadow = zwrocSasiadow(actualVert);		//sasiedzi aktualnego wierzcholka
+					while(listaSasiadow.size() > 0)
+					{
+						int sasiad = listaSasiadow.pop().element;
+						toCheck.push(sasiad, actualCost + sasiedzi[actualVert][sasiad]);
+						numberOfExtentions++;
+						distances.push(actualCost + sasiedzi[actualVert][sasiad], actualCost + sasiedzi[actualVert][sasiad]);
+					}
 				}
 			}
 		}
-		
-	}while(do_odwiedzenia.size() != 0);
-	
-	return najlepszy_koszt;
+		else break;		//bo jezeli kolejka jest priorytetowa, a ten warunek nie jest spelniony
+	}								//to juz nigdy nie bedzie
+	cout<<"Extentions: "<<numberOfExtentions<<endl;
+	return lowestCost;
 }
 

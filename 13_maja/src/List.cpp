@@ -130,7 +130,7 @@ W przeciwnym wypadku wyswietlany jest komunikat o bledzie i zwracana jest wartos
  		Node *temp = poczatek;
  		for (int i=1; i<=rozmiar; i++)
  		{
- 			if(temp->element == szukana) return temp->element;
+ 			if(temp->element == szukana) return i;
  			temp = temp->nastepny;
  		}
  		cout<<"Nie znaleziono zadanej liczby!"<<endl;

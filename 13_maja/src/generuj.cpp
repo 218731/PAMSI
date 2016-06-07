@@ -17,12 +17,10 @@ int main()
 		cout<<"Ile wierzcholkow: ";
 		cin>>liczebnosc_grafu;
 		
-		macierz = new int *[liczebnosc_grafu];
+		macierz = new int *[liczebnosc_grafu];		//alokacja pamieci dla macierzy
 		for(int i=0; i<liczebnosc_grafu; i++)
 		{
 			macierz[i] = new int[liczebnosc_grafu];
-			for(int j=0; j<liczebnosc_grafu; j++)
-				macierz[i][j] = 0;
 		}
 		
 		plik<<liczebnosc_grafu<<endl;		//liczba wierzcholkow
@@ -31,7 +29,9 @@ int main()
 			for(int j=0; j<liczebnosc_grafu; j++)
 			{
 				if(i == j) sasiad = 0;
-				else sasiad = rand()%2;
+				//else sasiad = rand()%(liczebnosc_grafu/2);
+				else if((rand()%10)%3==0) sasiad = rand()%(liczebnosc_grafu/5);
+					else sasiad = 0;
 				macierz[i][j] = sasiad;
 				for(int k=0; k<i; k++)
 				{
@@ -39,18 +39,16 @@ int main()
 				}
 			}
 		}
-		/*
-			for(int i=0; i<liczebnosc_grafu; i++)		//testowe wypisanie macierzy oraz wpisanie jej do pliku
+		for(int i=0; i<liczebnosc_grafu; i++)		//testowe wypisanie macierzy oraz wpisanie jej do pliku
+		{
+			for(int j=0; j<liczebnosc_grafu; j++)
 			{
-				for(int j=0; j<liczebnosc_grafu; j++)
-				{
-					cout<<macierz[i][j]<<" ";
-					plik<<macierz[i][j]<<" ";
-				}
-				cout<<endl;
-				plik<<endl;
+				cout<<macierz[i][j]<<" ";
+				plik<<macierz[i][j]<<" ";
 			}
-		*/
+			cout<<endl;
+			plik<<endl;
+		}
 	}
 	
 	/*

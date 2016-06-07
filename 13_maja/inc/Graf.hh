@@ -14,13 +14,12 @@ public:
 	Graf();
 	int dodaj_wierzcholek();
 	void dodaj_krawedz(int v1, int v2);
-	Queue zwroc_sasiadow_BFS(int v);
-	Stack zwroc_sasiadow_DFS(int v);
 	bool jest_polaczony(int v1, int v2);
-	void przeszukaj_wszerz(int v);
-	void przeszukaj_wglab(int v);
 	void wypisz();
 	void wczytaj_macierz();
+	Queue zwrocSasiadow(int v);
+	int branchAndBound(int start, int stop);
+	int branchAndBoundExtendedList(int start, int stop);
 };
 
 #endif
