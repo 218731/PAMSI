@@ -28,29 +28,29 @@ int main()
 		plik<<liczebnosc_grafu<<endl;		//liczba wierzcholkow
 		for(int i=0; i<liczebnosc_grafu; i++)		//ustalenie sasiadow dla wszystkich wierzcholkow
 		{
-			for(int j=0; j<liczebnosc_grafu; j++)
+			for(int j=i; j<liczebnosc_grafu; j++)
 			{
 				if(i == j) sasiad = 0;
 				else sasiad = rand()%2;
 				macierz[i][j] = sasiad;
-				for(int k=0; k<i; k++)
-				{
-					macierz[i][k] = macierz[k][i];
-				}
+			}
+			for(int k=0; k<i; k++)
+			{
+				macierz[i][k] = macierz[k][i];
 			}
 		}
-		/*
+		cout<<"Wpisuje"<<endl;
 			for(int i=0; i<liczebnosc_grafu; i++)		//testowe wypisanie macierzy oraz wpisanie jej do pliku
 			{
 				for(int j=0; j<liczebnosc_grafu; j++)
 				{
-					cout<<macierz[i][j]<<" ";
+					//cout<<macierz[i][j]<<" ";
 					plik<<macierz[i][j]<<" ";
 				}
-				cout<<endl;
+				//cout<<endl;
 				plik<<endl;
 			}
-		*/
+		
 	}
 	
 	/*
